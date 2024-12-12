@@ -6,6 +6,13 @@ export async function initDB() {
    db = await Deno.openKv();
 }
 
+/** remove a record */
+export async function deleteRow(key: string[]) {
+   console.info('delete Row: ', key)
+   if (!db) await initDB()
+   return await db.delete(key)
+}
+
 /** get a record */
 export async function getRow(key: string[]) {
    console.info('get Row: ', key)
