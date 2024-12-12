@@ -23,7 +23,7 @@ export async function setRow( key: string[], value: any ) {
    } else {
       console.error('kvdb.setRow failed!')
    }
-   console.log(`SetRow = value "${value}", result "${JSON.stringify(result)}"`)
+   console.log(`SetRow -- key: ["${key[0]}"] value: "${value}", result "${JSON.stringify(result)}"`)
    return result
 }
 

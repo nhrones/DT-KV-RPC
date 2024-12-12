@@ -37,19 +37,16 @@ export function registerClient(): Response {
             const { txID, procedure, params } = e.data
             let thisError: string | null = null
             let thisResult = null
-            const key = (Array.isArray(params.collection)) 
-               ? params.collection 
-               : [params.collection]
-
-            console.info('thisChannel.onmessage params:', params)
+            const { key } = params 
+            console.info('thisChannel.onmessage params:', params.key)
             // calling Snapshot procedures
             switch (procedure) {
 
                /** A mutation event - fired by kvdb.ts */
                case "MUTATION": {
-                  if (DEV) console.log(`MUTATION event - id: ${txID}, row: ${params.rowID}, type: ${params.type}`)
+                  if (DEV) console.log(`MUTATION event - id: ${txID}, row: ${params.key}, type: ${params.type}`)
                   thisError = null
-                  thisResult = params
+                  thisResult = params.key
                   break;
                }
 
@@ -58,6 +55,7 @@ export function registerClient(): Response {
                   const result = await getRow(key)
                   thisError = null
                   thisResult = result
+                  console.info('GET result', result)
                   break;
                }
 
