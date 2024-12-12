@@ -1,6 +1,7 @@
 
 import {
    DEV,
+   deleteRow,
    getRow,
    setRow,
 } from './remoteProcedures.ts'
@@ -75,6 +76,14 @@ export function registerClient(): Response {
                   break;
                }
 
+               case "DELETE": {
+                  const _result = await deleteRow(key);
+                     thisError = null
+                     thisResult = 'ok'
+                  
+                  break;
+               }
+               
                /** default fall through */
                default: {
                   console.log('handling - default')
