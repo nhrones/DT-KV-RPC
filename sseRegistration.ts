@@ -37,8 +37,11 @@ export function registerClient(): Response {
             const { txID, procedure, params } = e.data
             let thisError: string | null = null
             let thisResult = null
-            const { key} = params
-            
+            const key = (Array.isArray(params.collection)) 
+               ? params.collection 
+               : [params.collection]
+
+            console.info('thisChannel.onmessage params:', params)
             // calling Snapshot procedures
             switch (procedure) {
 
@@ -52,7 +55,7 @@ export function registerClient(): Response {
 
                /** Fetch a row */
                case "GET": {
-                  const result = await getRow()
+                  const result = await getRow(key)
                   thisError = null
                   thisResult = result
                   break;
@@ -63,7 +66,7 @@ export function registerClient(): Response {
                 * If a value already exists for the key, it will be overwritten.
                 */
                case "SET": {
-                  const result = await setRow(params.value);
+                  const result = await setRow(key, params.value);
                   if (result.versionstamp === null) {
                      thisError = `Oooppps! ${key}`
                      thisResult = null
