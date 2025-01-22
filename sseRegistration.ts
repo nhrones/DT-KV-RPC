@@ -1,6 +1,5 @@
-
+import {DEV} from "./server.ts"
 import {
-   DEV,
    deleteRow,
    getRow,
    setRow,
@@ -36,15 +35,10 @@ export function registerClient(): Response {
          // listening for RPC or mutation-event messages
          thisChannel.onmessage = async (e: MessageEvent) => {
 
-            //HACK remove key
-            //const _result = await deleteRow(["PWA","1"]);
-            //HACK remove key
-
             const { txID, procedure, params } = e.data
             let thisError: string | null = null
             let thisResult = null
             const { key } = params 
-            console.info('thisChannel.onmessage params:', params.key)
             // calling Snapshot procedures
             switch (procedure) {
 
@@ -61,7 +55,7 @@ export function registerClient(): Response {
                   const result = await getRow(key)
                   thisError = null
                   thisResult = result
-                  console.info('GET result', result)
+                  if (DEV) console.info('GET result', result)
                   break;
                }
 
@@ -91,7 +85,7 @@ export function registerClient(): Response {
                
                /** default fall through */
                default: {
-                  console.log('handling - default')
+                  if (DEV) console.log('handling - default')
                   thisError = 'Unknown procedure called!';
                   thisResult = null
                   break;

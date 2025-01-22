@@ -2,6 +2,8 @@
 import { registerClient } from "./sseRegistration.ts";
 import { initDB } from './remoteProcedures.ts'
 
+export const DEV = !!Deno.env.get("DEV")
+
 const bc = new BroadcastChannel("sse-rpc");
 
 // hot start db

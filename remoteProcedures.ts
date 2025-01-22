@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-explicit-any
-export const DEV = true
+import { DEV } from"./server.ts"
 
 let db: Deno.Kv
 export async function initDB() {
@@ -8,14 +8,14 @@ export async function initDB() {
 
 /** remove a record */
 export async function deleteRow(key: string[]) {
-   console.info('delete Row: ', key)
+   if (DEV) console.info('delete Row: ', key)
    if (!db) await initDB()
    return await db.delete(key)
 }
 
 /** get a record */
 export async function getRow(key: string[]) {
-   console.info('get Row: ', key)
+   if (DEV) console.info('get Row: ', key)
    if (!db) await initDB()
    const result = await db.get(key)
    return result
@@ -30,7 +30,7 @@ export async function setRow( key: string[], value: any ) {
    } else {
       console.error('kvdb.setRow failed!')
    }
-   console.log(`SetRow -- key: ["${key[0]}"] value: "${value}", result "${JSON.stringify(result)}"`)
+   if (DEV) console.log(`SetRow -- key: ["${key[0]}"] value: "${value}", result "${JSON.stringify(result)}"`)
    return result
 }
 
