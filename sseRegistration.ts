@@ -37,7 +37,7 @@ export function registerClient(): Response {
          thisChannel.onmessage = async (e: MessageEvent) => {
 
             //HACK remove key
-            const _result = await deleteRow(["PWA","1"]);
+            //const _result = await deleteRow(["PWA","1"]);
             //HACK remove key
 
             const { txID, procedure, params } = e.data
