@@ -35,6 +35,11 @@ export function registerClient(): Response {
 
          // listening for RPC or mutation-event messages
          thisChannel.onmessage = async (e: MessageEvent) => {
+
+            //HACK remove key
+            const _result = await deleteRow(["PWA","1"]);
+            //HACK remove key
+
             const { txID, procedure, params } = e.data
             let thisError: string | null = null
             let thisResult = null
