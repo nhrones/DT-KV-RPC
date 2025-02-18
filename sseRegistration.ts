@@ -76,10 +76,9 @@ export function registerClient(): Response {
                }
 
                case "DELETE": {
-                  const _result = await deleteRow(key);
+                  const result = await deleteRow(key);
                      thisError = null
-                     thisResult = 'ok'
-                  
+                     thisResult = result
                   break;
                }
                
